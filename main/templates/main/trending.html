@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="en-US">
+
+<head>
+    {% load static %}
+    <title>What's Down?</title>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="icon" href="{% static 'images/favicon.png' %}" />
+    <link id="style" rel="stylesheet" href="{% static 'css/dark.css' %}" />
+    <script src="{% static 'js/common.js' %}"></script>
+</head>
+
+<body>
+    <div class="trending-container">
+        <header>
+            <div class="header-buttons">
+                <a class="logo-link" href="{% url 'main:index' %}">
+                    <img id="logo" class="logo" src="{% static 'images/logo-dark.png' %}" alt="What's Down"
+                        title="What's Down?">
+                </a>
+                <div class="header-links">
+                    {% if username %}
+                    <a class="profile-link" href="{% url 'main:viewProfile' username %}"
+                        title="View Profile">{{ username }}</a>
+                    <a class="divider">|</a>
+                    <a class="create-link" href="{% url 'main:create' %}" title="Create a new post">Create Post</a>
+                    {% endif %}
+                </div>
+                <label class="theme-toggle" title="Change Theme"><input id="theme" type="checkbox"
+                        onclick="toggleTheme();" checked>&nbsp;Dark</label>
+            </div>
+        </header>
+        <main>
+            <div class="trending-main">
+                <div class="trending-card">
+                    <div class="trending-card-title">Trending Posts</div>
+                    {% if trending_posts %}
+                    <div class="trending-body">
+                        {% for post in trending_posts %}
+                        <div class="trending-body-item">
+                            <a class="trending-item-heading"
+                                href="{% url 'main:viewPost' post.id %}">{{ post.heading }}</a>
+                            <div class="trending-item-meta">
+                                <div class="item-meta-date">{{ post.created }} by <a class="viewProfile-link"
+                                        href="{% url 'main:viewProfile' post.owner.username %}"
+                                        title="View Profile">{% if username == post.owner.username %}you{% else %}{{ post.owner.username }}{% endif %}</a>
+                                </div>
+                                <div class="item-meta-stars">⭐ {{ post.stars }}</div>
+                            </div>
+                        </div>
+                        {% endfor %}
+                    </div>
+                    <div class="page-list">
+                        {% for page in pages %}
+                        {% if forloop.counter == curr_page %}
+                        <span class="curr-page-no">{{ forloop.counter }}</span>
+                        {% else %}
+                        <a class="page-no"
+                            href="{% url 'main:trendingPage' forloop.counter %}">{{ forloop.counter }}</a>
+                        {% endif %}
+                        {% endfor %}
+                    </div>
+                    {% else %}
+                    <div class="empty-posts">No Posts Yet!</div>
+                    {% endif %}
+                </div>
+            </div>
+        </main>
+        <footer>
+            <div class="footer-buttons">
+                {% if username %}
+                <a class="logout-link" href="{% url 'main:logout' %}" title="Log out from What's Down">Logout</a>
+                {% else %}
+                <a class="login-link" href="{% url 'main:login' %}" title="Sign in to What's Down">Login</a>
+                {% endif %}
+                <div class="footer-text">Made with ❤️</div>
+                <a class="about-link" href="{% url 'main:about' %}" title="About Us">About</a>
+            </div>
+        </footer>
+    </div>
+</body>
+
+</html>

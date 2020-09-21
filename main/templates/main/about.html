@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="en-US">
+
+<head>
+    {% load static %}
+    <title>What's Down?</title>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="icon" href="{% static 'images/favicon.png' %}" />
+    <link id="style" rel="stylesheet" href="{% static 'css/dark.css' %}" />
+    <script src="{% static 'js/common.js' %}"></script>
+</head>
+
+<body>
+    <div class="about-container">
+        <header>
+            <div class="header-buttons">
+                <a class="logo-link" href="{% url 'main:index' %}">
+                    <img id="logo" class="logo" src="{% static 'images/logo-dark.png' %}" alt="What's Down"
+                        title="What's Down?">
+                </a>
+                {% if username %}
+                <div class="header-links">
+                    <a class="profile-link" href="{% url 'main:viewProfile' username %}">{{ username }}</a>
+                    <a class="divider">|</a>
+                    <a class="create-link" href="{% url 'main:create' %}">Create Post</a>
+                </div>
+                {% endif %}
+                <label class="theme-toggle" title="Change Theme"><input id="theme" type="checkbox"
+                        onclick="toggleTheme();" checked>&nbsp;Dark</label>
+            </div>
+        </header>
+        <main>
+            <div class="about-main">
+                <div class="about-card">
+                    <div class="about-card-title">About Us</div>
+                    <div class="about-card-body">What's-Down helps people find new ideas, knowledge and perspectives.
+                        Here we serve you, the curious mind who wants to learn something new everyday.</div>
+                </div>
+                <div class="about-card">
+                    <div class="about-card-title">Why the light/dark blue theme?</div>
+                    <div class="about-card-body">Blue is often seen as a sign of stability and reliability just like how
+                        we want to project our platform to our users.</div>
+                </div>
+                <div class="about-card">
+                    <div class="about-card-title">Purpose</div>
+                    <div class="about-card-body">This is to demonstrate the capabilities of Django, a web-development
+                        framework for Python.</div>
+                </div>
+            </div>
+        </main>
+        <footer>
+            <div class="footer-buttons">
+                {% if username %}
+                <a class="logout-link" href="{% url 'main:logout' %}" title="Logout from What's Down?">Logout</a>
+                {% else %}
+                <a class="login-link" href="{% url 'main:login' %}" title="Sign in to What's Down">Login</a>
+                {% endif %}
+                <div class="footer-text">Made with ❤️</div>
+                <a class="about-link" href="{% url 'main:about' %}" title="About Us">About</a>
+            </div>
+        </footer>
+    </div>
+</body>
+
+</html>

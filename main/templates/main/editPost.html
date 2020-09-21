@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="en-US">
+
+<head>
+    {% load static %}
+    <title>What's Down?</title>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="icon" href="{% static 'images/favicon.png' %}" />
+    <link id="style" rel="stylesheet" href="{% static 'css/dark.css' %}" />
+    <script src="{% static 'js/common.js' %}"></script>
+</head>
+
+<body>
+    <div class="editPost-container">
+        <header>
+            <div class="header-buttons">
+                <a class="logo-link" href="{% url 'main:index' %}">
+                    <img id="logo" class="logo" src="{% static 'images/logo-dark.png' %}" alt="What's Down"
+                        title="What's Down?">
+                </a>
+                <div class="header-links">
+                    <a class="profile-link" href="{% url 'main:viewProfile' username %}"
+                        title="View Profile">{{ username }}</a>
+                </div>
+                <label class="theme-toggle" title="Change Theme"><input id="theme" type="checkbox"
+                        onclick="toggleTheme();" checked>&nbsp;Dark</label>
+            </div>
+        </header>
+        <main>
+            <div class="editPost-main">
+                <div class="editPost-intro">Edit Post</div>
+                <div class="editPost-errors">
+                    {% if editPost_errors %}
+                    {% for error in editPost_errors %}
+                    <div class="editPost-error">{{ error }}</div>
+                    {% endfor %}
+                    {% endif %}
+                </div>
+                <form class="editPost-fields" method="POST" action="{% url 'main:editPost' %}">
+                    {% csrf_token %}
+                    <input type="hidden" name="p_id" value="{{ post.id }}">
+                    <input class="editPost-heading" type="text" name="heading" placeholder="Heading"
+                        value="{{ post.heading }}" required>
+                    <textarea class="editPost-body" name="body"
+                        placeholder="Description (Optional)">{% if post.body %}{{ post.body }}{% endif %}</textarea>
+                    <input class="editPost-submit" type="submit" value="Save Changes">
+                </form>
+            </div>
+        </main>
+        <footer>
+            <div class="footer-buttons">
+                <a class="logout-link" href="{% url 'main:logout' %}" title="Log out from What's Down">Logout</a>
+                <div class="footer-text">Made with ❤️</div>
+                <a class="about-link" href="{% url 'main:about' %}">About</a>
+            </div>
+        </footer>
+    </div>
+</body>
+
+</html>

@@ -1,0 +1,189 @@
+<!DOCTYPE html>
+<html lang="en-US">
+
+<head>
+    {% load static %}
+    {% load extra_tags %}
+    <title>What's Down?</title>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="icon" href="{% static 'images/favicon.png' %}" />
+    <link id="style" rel="stylesheet" href="{% static 'css/dark.css' %}" />
+    <script src="{% static 'js/common.js' %}"></script>
+</head>
+
+<body>
+    <div class="viewPost-container">
+        <header>
+            <div class="header-buttons">
+                <a class="logo-link" href="{% url 'main:index' %}">
+                    <img id="logo" class="logo" src="{% static 'images/logo-dark.png' %}" alt="What's Down"
+                        title="What's Down?">
+                </a>
+                <div class="header-links">
+                    {% if account %}
+                    <a class="profile-link" href="{% url 'main:viewProfile' account.username %}"
+                        title="View Profile">{{ account.username }}</a>
+                    <a class="divider">|</a>
+                    <a class="create-link" href="{% url 'main:create' %}" title="Create a new post">Create Post</a>
+                    {% endif %}
+                </div>
+                <label class="theme-toggle" title="Change Theme"><input id="theme" type="checkbox"
+                        onclick="toggleTheme();" checked>&nbsp;Dark</label>
+            </div>
+        </header>
+        <main>
+            <div class="viewPost-main">
+                {% if message %}
+                <div class="viewPost-message">{{ message }}</div>
+                {% endif %}
+                <div class="viewPost-post">
+                    <div class="viewPost-title">
+                        <div class="viewPost-heading-title">{{ post.heading }}</div>
+                        <div class="viewPost-heading-meta">
+                            <div class="viewPost-heading-date">{{ post.created }} by <a class="viewPost-link"
+                                    href="{% url 'main:viewProfile' post.owner.username %}"
+                                    title="View Profile">{% if account and account.id == post.owner.id %}you{% else %}{{ post.owner.username }}{% endif %}</a>
+                            </div>
+                            <div class="viewPost-heading-stars">⭐
+                                {% if account %}
+                                <form method="POST" action="{% url 'main:star' post.id %}">
+                                    {% csrf_token %}
+                                    {% if post|starred_by:account %}
+                                    <input type="hidden" name="star" value="false">
+                                    <input class="viewPost-star-submit" type="submit" title="Star Post"
+                                        value="&nbsp;Unstar {{ post.stars }}">
+                                    {% else %}
+                                    <input type="hidden" name="star" value="true">
+                                    <input class="viewPost-star-submit" type="submit" title="Unstar Post"
+                                        value="&nbsp;Star {{ post.stars }}">
+                                    {% endif %}
+                                </form>
+                                {% else %}
+                                {{ post.stars }}
+                                {% endif %}
+                            </div>
+                        </div>
+                        {% if account.username == post.owner.username %}
+                        <div class="viewPost-heading-actions">
+                            <a class="viewPost-button" href="{% url 'main:edit' post.id %}" title="Edit Post"><img
+                                    class="viewPost-edit-button" src="{% static 'images/edit-dark.png' %}"></a>
+                            <a href="#" title="Delete Post"
+                                onclick="document.getElementById('post-modal').style.display='flex'">
+                                <img class="viewPost-delete-button" src="{% static 'images/delete-dark.png' %}">
+                            </a>
+                        </div>
+                        <div id="post-modal" class="viewPost-modal-container">
+                            <div class="viewPost-modal-message">
+                                <div class="viewPost-modal-title">
+                                    Are you sure you want to delete this post?
+                                </div>
+                                <form method="POST" action="{% url 'main:deletePost' %}">
+                                    {% csrf_token %}
+                                    <input type="hidden" name="p_id" value="{{ post.id }}">
+                                    <div class="viewPost-modal-buttons">
+                                        <button type="button" class="viewPost-modal-button modal-cancel"
+                                            onclick="document.getElementById('post-modal').style.display='none'">Cancel</button>
+                                        <input type="submit" class="viewPost-modal-button modal-delete" value="Delete">
+                                    </div>
+                                </form>
+                            </div>
+                        </div>
+                        {% endif %}
+                    </div>
+                    {% if post.body %}
+                    <div class="viewPost-body">
+                        <pre>{{ post.body|safe }}</pre>
+                    </div>
+                    {% endif %}
+                </div>
+                <div class="viewPost-comment-section">
+                    <div class="viewPost-comment-title">Comments</div>
+                    {% if comments %}
+                    <div class="viewPost-comments">
+                        {% for comment in comments %}
+                        <div class="viewPost-comment">
+                            <div class="viewPost-comment-body">
+                                <pre>{{ comment.body|safe }}</pre>
+                            </div>
+                            <div class="viewPost-comment-meta">
+                                <div class="viewPost-comment-date">{{ comment.created }} by <a class="viewPost-link"
+                                        href="{% url 'main:viewProfile' comment.owner.username %}"
+                                        title="View Profile">{% if account and account.username == comment.owner.username %}you{% else %}{{ comment.owner.username }}{% endif %}</a>
+                                </div>
+                                <div class="viewPost-comment-votes">👍
+                                    {% if account %}
+                                    <form method="POST" action="{% url 'main:vote' comment.id %}">
+                                        {% csrf_token %}
+                                        {% if comment|voted_by:account %}
+                                        <input type="hidden" name="vote" value="false">
+                                        <input class="viewPost-vote-submit" type="submit" title="Downvote Comment"
+                                            value="&nbsp;Downvote {{ comment.votes }}">
+                                        {% else %}
+                                        <input type="hidden" name="vote" title="Upvote Comment" value="true">
+                                        <input class="viewPost-vote-submit" type="submit"
+                                            value="&nbsp;Upvote {{ comment.votes }}">
+                                        {% endif %}
+                                    </form>
+                                    {% else %}
+                                    {{ comment.votes }}
+                                    {% endif %}
+                                </div>
+                            </div>
+                            {% if account.username == comment.owner.username %}
+                            <div class="viewPost-comment-actions">
+                                <a href="#" title="Delete Comment" onclick="modalComment('{{ comment.id }}');">
+                                    <img class="viewPost-delete-button" src="{% static 'images/delete-dark.png' %}">
+                                </a>
+                            </div>
+                            {% endif %}
+                        </div>
+                        {% endfor %}
+                        <div id="comment-modal" class="viewPost-modal-container">
+                            <div class="viewPost-modal-message">
+                                <div class="viewPost-modal-title">
+                                    Are you sure you want to delete this comment?
+                                </div>
+                                <form method="POST" action="{% url 'main:deleteComment' %}">
+                                    {% csrf_token %}
+                                    <input id="comment_id" type="hidden" name="c_id" value="">
+                                    <div class="viewPost-modal-buttons">
+                                        <button type="button" class="viewPost-modal-button modal-cancel"
+                                            onclick="document.getElementById('comment-modal').style.display='none'">Cancel</button>
+                                        <input type="submit" class="viewPost-modal-button modal-delete" value="Delete">
+                                    </div>
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+                    {% else %}
+                    <div class="empty-comments">No Comments Yet!</div>
+                    {% endif %}
+                    {% if account %}
+                    <form id="comment" method="POST" action="{% url 'main:comment' post.id %}">
+                        {% csrf_token %}
+                        <div class="viewPost-comment-editor">
+                            <textarea class="viewPost-editor-textarea" name="body" placeholder="Type your comment here"
+                                required></textarea>
+                            <input class="viewPost-editor-submit" type="submit" value="Reply">
+                        </div>
+                    </form>
+                    {% endif %}
+                </div>
+            </div>
+        </main>
+        <footer>
+            <div class="footer-buttons">
+                {% if account %}
+                <a class="logout-link" href="{% url 'main:logout' %}" title="Log out from What's Down">Logout</a>
+                {% else %}
+                <a class="login-link" href="{% url 'main:login' %}" title="Sign in to What's Down">Login</a>
+                {% endif %}
+                <div class="footer-text">Made with ❤️</div>
+                <a class="about-link" href="{% url 'main:about' %}" title="About Us">About</a>
+            </div>
+        </footer>
+    </div>
+</body>
+
+</html>

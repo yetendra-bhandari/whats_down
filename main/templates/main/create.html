@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="en-US">
+
+<head>
+    {% load static %}
+    <title>What's Down?</title>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="icon" href="{% static 'images/favicon.png' %}" />
+    <link id="style" rel="stylesheet" href="{% static 'css/dark.css' %}" />
+    <script src="{% static 'js/common.js' %}"></script>
+</head>
+
+<body>
+    <div class="create-container">
+        <header>
+            <div class="header-buttons">
+                <a class="logo-link" href="{% url 'main:index' %}">
+                    <img id="logo" class="logo" src="{% static 'images/logo-dark.png' %}" alt="What's Down"
+                        title="What's Down?">
+                </a>
+                <div class="header-links">
+                    <a class="profile-link" href="{% url 'main:viewProfile' username %}"
+                        title="View Profile">{{ username }}</a>
+                </div>
+                <label class="theme-toggle" title="Change Theme"><input id="theme" type="checkbox"
+                        onclick="toggleTheme();" checked>&nbsp;Dark</label>
+            </div>
+        </header>
+        <main>
+            <div class="create-main">
+                <div class="create-intro">
+                    As a publishing platform, What's Down allows you to share your stories and ideas
+                    with the world. Our editor also supports <a class="markdown-link"
+                        href="https://daringfireball.net/projects/markdown/">markdown</a> syntax. We can't wait to read
+                    it!
+                </div>
+                <div class="post-errors">
+                    {% if post_fields.error %}
+                    {% for error in post_fields.error %}
+                    <div class="post-error">{{ error }}</div>
+                    {% endfor %}
+                    {% endif %}
+                </div>
+                <form class="create-fields" method="POST" action="{% url 'main:confirmPost' %}">
+                    {% csrf_token %}
+                    <input class="create-heading" type="text" name="heading" placeholder="Heading"
+                        {% if post_fields.heading %} value="{{ post_fields.heading }}" {% endif %} required>
+                    <textarea class="create-body" name="body"
+                        placeholder="Description (Optional)">{% if post_fields.body %}{{ post_fields.body }}{% endif %}</textarea>
+                    <input class="create-submit" type="submit" value="Review">
+                </form>
+            </div>
+        </main>
+        <footer>
+            <div class="footer-buttons">
+                <a class="logout-link" href="{% url 'main:logout' %}" title="Log out from What's Down">Logout</a>
+                <div class="footer-text">Made with ❤️</div>
+                <a class="about-link" href="{% url 'main:about' %}">About</a>
+            </div>
+        </footer>
+    </div>
+</body>
+
+</html>

@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="en-US">
+
+<head>
+    {% load static %}
+    <title>What's Down?</title>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="icon" href="{% static 'images/favicon.png' %}" />
+    <link id="style" rel="stylesheet" href="{% static 'css/dark.css' %}" />
+    <script src="{% static 'js/common.js' %}"></script>
+</head>
+
+<body>
+    <div class="editProfile-container">
+        <header>
+            <div class="header-buttons">
+                <a class="logo-link" href="{% url 'main:index' %}">
+                    <img id="logo" class="logo" src="{% static 'images/logo-dark.png' %}" alt="What's Down"
+                        title="What's Down?">
+                </a>
+                <div class="header-links">
+                    <a class="create-link" href="{% url 'main:create' %}" title="Create a new post">Create Post</a>
+                </div>
+                <label class="theme-toggle" title="Change Theme"><input id="theme" type="checkbox"
+                        onclick="toggleTheme();" checked>&nbsp;Dark</label>
+            </div>
+        </header>
+        <main>
+            <div class="editProfile-main">
+                <div class="editProfile-edit-title">Edit Profile</div>
+                {% if editProfile_errors %}
+                <div class="editProfile-errors">
+                    {% for error in editProfile_errors %}
+                    <div class="editProfile-error">{{ error }}</div>
+                    {% endfor %}
+                </div>
+                {% endif %}
+                <form id="editProfile" method="POST" action="{% url 'main:editProfile' %}">
+                    {% csrf_token %}
+                    <div class="editProfile-fields">
+                        <input class="editProfile-field" type="text" name="name" placeholder="Name"
+                            value="{{ account.name }}" required>
+                        <textarea class="editProfile-textarea" name="tagline"
+                            placeholder="Tagline (Optional)">{% if account.tagline %}{{ account.tagline }}{% endif %}</textarea>
+                        <label class="editProfile-date-label">
+                            Date Of Birth:
+                            <input class="editProfile-date" type="date" name="dob" placeholder="Date Of Birth"
+                                value="{{ account.date_of_birth|safe }}" required>
+                        </label>
+                        <input class="editProfile-field" type="password" name="new_password"
+                            placeholder="New Password (Leave blank if unchanged)">
+                        <input class="editProfile-field" type="password" name="new_confirm"
+                            placeholder="Confirm New Password">
+                        <input class="editProfile-field" type="password" name="curr_password"
+                            placeholder="Current Password" required>
+                        <input type="submit" hidden>
+                    </div>
+                </form>
+            </div>
+        </main>
+        <footer>
+            <div class="footer-buttons">
+                <a class="editProfile-link" href="#" onclick="document.getElementById('editProfile').submit();"
+                    title="Confirm Changes">Save</a>
+                <div class="footer-text">Made with ❤️</div>
+                <a class="about-link" href="{% url 'main:about' %}" title="About Us">About</a>
+            </div>
+        </footer>
+    </div>
+</body>
+
+</html>

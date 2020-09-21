@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html lang="en-US">
+
+<head>
+    {% load static %}
+    <title>What's Down?</title>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="icon" href="{% static 'images/favicon.png' %}" />
+    <link id="style" rel="stylesheet" href="{% static 'css/dark.css' %}" />
+    <script src="{% static 'js/common.js' %}"></script>
+</head>
+
+<body>
+    <div class="viewProfile-container">
+        <header>
+            <div class="header-buttons">
+                <a class="logo-link" href="{% url 'main:index' %}">
+                    <img id="logo" class="logo" src="{% static 'images/logo-dark.png' %}" alt="What's Down"
+                        title="What's Down?">
+                </a>
+                <div class="header-links">
+                    {% if username %}
+                    {% if username != account.username %}
+                    <a class="profile-link" href="{% url 'main:viewProfile' username %}"
+                        title="View Profile">{{ username }}</a>
+                    <a class="divider">|</a>
+                    {% endif %}
+                    <a class="create-link" href="{% url 'main:create' %}" title="Create a new post">Create Post</a>
+                    {% endif %}
+                </div>
+                <label class="theme-toggle" title="Change Theme"><input id="theme" type="checkbox"
+                        onclick="toggleTheme();" checked>&nbsp;Dark</label>
+            </div>
+        </header>
+        <main>
+            <div class="viewProfile-main">
+                {% if username == account.username %}
+                <a class="viewProfile-edit-title" href="{% url 'main:profile' %}">Edit Profile</a>
+                {% endif %}
+                <div class="viewProfile-name">{{ account.name }} @{{ account.username }}</div>
+                <div class="viewProfile-tagline">{{ account.tagline }}</div>
+                <div class="viewProfile-details">
+                    <div class="viewProfile-email">Email Address: <a class="email-link"
+                            href="mailto: {{ account.email }}">{{ account.email }}</a></div>
+                    <div class="viewProfile-dob">Birthday: {{ account.date_of_birth }}</div>
+                    <div class="viewProfile-created">Account since {{ account.created }}</div>
+                </div>
+                <div class="viewProfile-posts">
+                    <div class="viewProfile-posts-title">Posts</div>
+                    {% if posts %}
+                    <div class="viewProfile-posts-cards">
+                        {% for post in posts %}
+                        <div class="viewProfile-post">
+                            <a class="viewProfile-post-heading"
+                                href="{% url 'main:viewPost' p_id=post.id %}">{{ post.heading }}</a>
+                            <div class="viewProfile-post-meta">
+                                <div class="item-meta-date">{{ post.created }}</div>
+                                <div class="item-meta-stars">⭐ {{ post.stars }}</div>
+                            </div>
+                        </div>
+                        {% endfor %}
+                    </div>
+                    {% else %}
+                    <div class="empty-posts">No Posts Yet!</div>
+                    {% endif %}
+                </div>
+        </main>
+        <footer>
+            <div class="footer-buttons">
+                {% if username %}
+                <a class="logout-link" href="{% url 'main:logout' %}" title="Log out from What's Down">Logout</a>
+                {% else %}
+                <a class="login-link" href="{% url 'main:login' %}" title="Sign in to What's Down">Login</a>
+                {% endif %}
+                <div class="footer-text">Made with ❤️</div>
+                <a class="about-link" href="{% url 'main:about' %}" title="About Us">About</a>
+            </div>
+        </footer>
+    </div>
+</body>
+
+</html>

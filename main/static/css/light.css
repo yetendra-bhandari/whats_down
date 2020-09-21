@@ -1,0 +1,944 @@
+@font-face {
+    font-family: Imprima;
+    src: url("../fonts/Imprima-Regular.woff") format("woff");
+}
+
+@font-face {
+    font-family: Raleway;
+    src: url("../fonts/Raleway-Light.woff") format("woff");
+}
+
+* {
+    box-sizing: border-box;
+}
+
+html,
+body {
+    height: 100%;
+    margin: 0;
+    background-color: #FCF6F5;
+    font-size: 6px;
+}
+
+p,
+h1,
+ul {
+    margin: 0;
+}
+
+code {
+    font-size: 2.5rem;
+    font-family: monospace;
+}
+
+pre {
+    margin: 0;
+    white-space: pre-wrap;
+    word-break: break-word;
+    font-family: Raleway;
+}
+
+::placeholder {
+    color: #FCF6F5;
+    opacity: 0.75;
+}
+
+/*Start of index.html*/
+.index-container,
+.about-container,
+.signup-container,
+.content-container,
+.create-container,
+.confirm-container,
+.viewPost-container,
+.editPost-container,
+.viewProfile-container,
+.editProfile-container,
+.latest-container,
+.trending-container {
+    height: 100%;
+    width: 100%;
+    display: grid;
+    grid-template-rows: auto 1fr auto;
+    grid-template-areas:
+        "header"
+        "main"
+        "footer";
+}
+
+.index-container header,
+.about-container header,
+.signup-container header,
+.content-container header,
+.create-container header,
+.confirm-container header,
+.viewPost-container header,
+.editPost-container header,
+.viewProfile-container header,
+.editProfile-container header,
+.latest-container header,
+.trending-container header {
+    grid-area: header;
+}
+
+.header-buttons {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 1.5rem;
+    background-color: #2BAE66;
+}
+
+.logo {
+    height: 7.5rem;
+}
+
+.header-links {
+    padding: 1.25rem;
+    text-align: center;
+    display: inline-flex;
+    align-items: center;
+}
+
+.theme-toggle {
+    height: 6rem;
+    width: 12rem;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 3rem;
+    font-family: Imprima;
+    background-color: #FCF6F5;
+    color: #2BAE66;
+    padding: 0rem;
+    border-radius: 10rem;
+    user-select: none;
+    -webkit-tap-highlight-color: transparent;
+}
+
+.theme-toggle:hover {
+    cursor: pointer;
+}
+
+#theme {
+    margin: 0;
+}
+
+.profile-link,
+.create-link,
+.divider {
+    text-align: center;
+    color: #FCF6F5;
+    font-family: Imprima;
+    font-size: 3rem;
+    text-decoration: none;
+    -webkit-tap-highlight-color: transparent;
+}
+
+.divider {
+    padding: 0.25rem;
+    font-size: 4rem;
+}
+
+.login-link:hover,
+.signup-link:hover,
+.about-link:hover,
+.profile-link:hover,
+.logout-link:hover,
+.create-link:hover,
+.email-link:hover,
+.editProfile-link:hover,
+.viewPost-modal-button:hover {
+    text-decoration: underline;
+    cursor: pointer;
+}
+
+.index-container main,
+.about-container main,
+.signup-container main,
+.content-container main,
+.create-container main,
+.confirm-container main,
+.viewPost-container main,
+.editPost-container main,
+.viewProfile-container main,
+.editProfile-container main,
+.latest-container main,
+.trending-container main {
+    grid-area: main;
+}
+
+.index-main {
+    height: 100%;
+    padding: 2rem;
+    display: grid;
+    gap: 2rem;
+    grid-template-rows: 1fr 1fr;
+    grid-template-columns: 1fr 1fr;
+    grid-template-areas:
+        "index-title index-title"
+        "signup continue";
+    align-items: center;
+    justify-items: center;
+}
+
+.index-title {
+    grid-area: index-title;
+    color: #2BAE66;
+    font-family: Imprima;
+    text-align: center;
+    font-size: 6rem;
+}
+
+.index-card {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding: 2rem;
+    height: 25rem;
+    width: 80%;
+    background-color: #2BAE66;
+    color: #FCF6F5;
+    font-family: Imprima;
+    text-align: center;
+    border-radius: 2.25rem;
+    text-decoration: none;
+    -webkit-tap-highlight-color: transparent;
+}
+
+.index-card:hover {
+    cursor: pointer;
+}
+
+.index-card-title {
+    font-size: 4rem;
+}
+
+.index-card-body {
+    font-size: 3rem;
+}
+
+.signup {
+    grid-area: signup;
+}
+
+.continue {
+    grid-area: continue;
+}
+
+.index-container footer,
+.about-container footer,
+.signup-container footer,
+.content-container footer,
+.create-container footer,
+.confirm-container footer,
+.viewPost-container footer,
+.editPost-container footer,
+.viewProfile-container footer,
+.editProfile-container footer,
+.latest-container footer,
+.trending-container footer {
+    grid-area: footer;
+}
+
+.login-error {
+    text-align: center;
+    font-size: 2.5rem;
+    font-family: Imprima;
+    color: crimson;
+}
+
+.login-form {
+    padding-left: 2rem;
+    padding-right: 2rem;
+}
+
+.login-fields,
+.signup-fields,
+.editProfile-fields {
+    display: grid;
+    gap: 1.5rem;
+    padding: 1.5rem;
+    padding-bottom: 0;
+}
+
+.login-field {
+    display: block;
+    font-size: 3rem;
+    font-family: Imprima;
+    padding: 2rem;
+    border: none;
+    border-radius: 10rem;
+    background-color: #2BAE66;
+    color: #FCF6F5;
+}
+
+.login-field:focus {
+    outline: none;
+}
+
+.remember-checkbox {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 3rem;
+    font-family: Imprima;
+    color: #2BAE66;
+    user-select: none;
+    -webkit-tap-highlight-color: transparent;
+}
+
+.footer-buttons {
+    padding: 1.5rem;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.login-link,
+.signup-link,
+.logout-link,
+.about-link,
+.editProfile-link,
+.viewPost-modal-button,
+.viewPost-editor-submit {
+    height: 6rem;
+    width: 12rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 3rem;
+    font-family: Imprima;
+    background-color: #2BAE66;
+    color: #FCF6F5;
+    padding: 1rem;
+    border: none;
+    border-radius: 10rem;
+    user-select: none;
+    text-decoration: none;
+    -webkit-tap-highlight-color: transparent;
+}
+
+.footer-text {
+    padding: 1rem;
+    font-size: 3rem;
+    color: #2BAE66;
+    font-family: Imprima;
+}
+
+
+/*End of index.html*/
+/*Start of about.html*/
+
+.about-main {
+    height: 100%;
+    display: grid;
+    padding: 2rem;
+    gap: 2rem;
+    align-items: center;
+}
+
+.about-card {
+    display: grid;
+    gap: 1rem;
+    align-items: center;
+    padding: 2rem;
+    background-color: transparent;
+}
+
+.about-card-title,
+.content-card-title,
+.viewPost-comment-title,
+.editPost-intro,
+.viewProfile-posts-title,
+.viewProfile-edit-title,
+.editProfile-edit-title,
+.latest-card-title,
+.trending-card-title {
+    color: #FCF6F5;
+    justify-self: center;
+    background-color: #2BAE66;
+    padding: 2rem;
+    font-size: 3rem;
+    font-family: Imprima;
+    border-radius: 10rem;
+    text-decoration: none;
+    -webkit-tap-highlight-color: transparent;
+}
+
+.content-card-title:hover,
+.viewProfile-edit-title:hover {
+    text-decoration: underline;
+}
+
+.about-card-body {
+    color: #2BAE66;
+    font-size: 3rem;
+    font-family: Imprima;
+    text-align: center;
+}
+
+/*End of about.html*/
+/*Start of signup.html*/
+
+.signup-main {
+    height: 100%;
+    padding: 2rem;
+    padding-bottom: 0;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-evenly;
+}
+
+.signup-title {
+    color: #2BAE66;
+    font-family: Imprima;
+    text-align: center;
+    font-size: 7rem;
+}
+
+.signup-body {
+    color: #2BAE66;
+    padding-top: 2rem;
+    font-family: Imprima;
+    text-align: center;
+    font-size: 4rem;
+}
+
+.signup-error,
+.editProfile-error {
+    padding: 1rem;
+    padding-bottom: 0;
+    text-align: center;
+    font-size: 2.5rem;
+    font-family: Imprima;
+    color: crimson;
+}
+
+.signup-field,
+.editProfile-field {
+    display: block;
+    font-size: 3rem;
+    font-family: Imprima;
+    padding: 2rem;
+    border: none;
+    border-radius: 10rem;
+    background-color: #2BAE66;
+    color: #FCF6F5;
+}
+
+.signup-textarea,
+.editProfile-textarea,
+.viewPost-editor-textarea {
+    display: block;
+    resize: none;
+    height: 18rem;
+    font-size: 3rem;
+    font-family: Imprima;
+    padding: 2rem;
+    border: none;
+    border-radius: 2.25rem;
+    background-color: #2BAE66;
+    color: #FCF6F5;
+}
+
+.signup-date-label,
+.editProfile-date-label {
+    text-align: center;
+    color: #2BAE66;
+    font-size: 3rem;
+    font-family: Imprima;
+}
+
+.signup-date,
+.editProfile-date {
+    height: 6rem;
+    border-radius: 10rem;
+    border: none;
+    background-color: #2BAE66;
+    color: #FCF6F5;
+    font-size: 3rem;
+    font-family: Imprima;
+    padding: 1rem;
+}
+
+.signup-field,
+.signup-textarea,
+.signup-date,
+.viewPost-editor-textarea,
+.viewPost-editor-submit,
+.editProfile-field,
+.editProfile-textarea,
+.editProfile-date {
+    outline: none;
+}
+
+/*End of signup.html*/
+/*Start of content.html*/
+
+.content-main,
+.latest-main,
+.trending-main {
+    display: grid;
+    gap: 2rem;
+    padding: 2rem;
+    padding-bottom: 0;
+}
+
+.content-message,
+.viewPost-message {
+    text-align: center;
+    font-size: 2.5rem;
+    font-family: Imprima;
+    color: darkblue;
+}
+
+.content-card,
+.latest-card,
+.trending-card {
+    display: grid;
+    gap: 1rem;
+}
+
+.viewProfile-posts-cards,
+.latest-body,
+.trending-body {
+    display: grid;
+    gap: 1rem;
+}
+
+.content-body-item,
+.viewProfile-post,
+.latest-body-item,
+.trending-body-item {
+    padding: 2rem;
+    display: grid;
+    gap: 0.75rem;
+    background-color: rgba(43, 174, 102, 0.15);
+    border-radius: 2.25rem;
+}
+
+.content-item-heading,
+.viewProfile-post-heading,
+.latest-item-heading,
+.trending-item-heading {
+    justify-self: start;
+    font-size: 2.75rem;
+    font-family: Raleway;
+    color: #2BAE66;
+    text-decoration: none;
+}
+
+.content-item-meta,
+.viewProfile-post-meta,
+.latest-item-meta,
+.trending-item-meta {
+    display: flex;
+    justify-content: space-between;
+    font-size: 2.25rem;
+    font-family: Imprima;
+    font-style: italic;
+    color: #2BAE66;
+}
+
+.viewProfile-link,
+.viewPost-link {
+    color: #2BAE66;
+    text-decoration: none;
+}
+
+.viewProfile-link:hover,
+.viewPost-link:hover {
+    text-decoration: underline;
+}
+
+.empty-posts,
+.empty-comments {
+    padding: 1rem;
+    text-align: center;
+    font-size: 2.5rem;
+    font-family: Imprima;
+    color: crimson;
+}
+
+/*End of content.html*/
+/*Start of create.html*/
+
+.create-main,
+.editPost-main {
+    height: 100%;
+    padding: 2rem;
+    padding-bottom: 0;
+    display: grid;
+    grid-template-rows: auto auto 1fr;
+}
+
+.create-intro {
+    padding-bottom: 1rem;
+    font-size: 2.5rem;
+    font-family: Imprima;
+    color: #2BAE66;
+    text-align: center;
+}
+
+.post-error,
+.editPost-error {
+    padding: 1rem;
+    text-align: center;
+    font-size: 2.5rem;
+    font-family: Imprima;
+    color: crimson;
+}
+
+.create-fields,
+.editPost-fields {
+    padding: 1rem;
+    padding-bottom: 0;
+    display: grid;
+    gap: 2rem;
+    grid-template-rows: auto 1fr auto;
+}
+
+.create-heading,
+.editPost-heading {
+    font-family: Raleway;
+    color: #2BAE66;
+    padding: 2rem;
+    display: block;
+    font-size: 4rem;
+    background-color: rgba(43, 174, 102, 0.15);
+    border: thin #2BAE66 solid;
+    border-radius: 4rem;
+    resize: none;
+}
+
+.markdown-link {
+    color: #2BAE66;
+}
+
+.create-body,
+.editPost-body {
+    min-height: 100%;
+    font-family: Raleway;
+    color: #2BAE66;
+    padding: 2rem;
+    display: block;
+    font-size: 3rem;
+    background-color: rgba(43, 174, 102, 0.15);
+    border: thin #2BAE66 solid;
+    border-radius: 4rem;
+    resize: none;
+}
+
+.create-heading::placeholder,
+.create-body::placeholder,
+.editPost-heading::placeholder,
+.editPost-body::placeholder {
+    color: #2BAE66;
+    opacity: 0.75;
+}
+
+.create-submit,
+.editPost-submit {
+    font-family: Imprima;
+    color: #FCF6F5;
+    padding: 2rem;
+    font-size: 3rem;
+    display: block;
+    background-color: #2BAE66;
+    border: none;
+    border-radius: 10rem;
+}
+
+.create-heading:focus,
+.create-body:focus,
+.create-submit:focus,
+.editPost-heading:focus,
+.editPost-body:focus,
+.editPost-submit:focus {
+    outline: none;
+}
+
+.create-submit:hover {
+    cursor: pointer;
+}
+
+/*End of create.html*/
+/*Start of confirm.html*/
+
+.confirm-main {
+    height: 100%;
+    padding: 3rem;
+    padding-bottom: 0;
+    display: grid;
+    gap: 2rem;
+    grid-template-rows: auto 1fr auto;
+}
+
+.confirm-heading {
+    font-family: Raleway;
+    color: #2BAE66;
+    word-break: break-word;
+    padding: 2rem;
+    display: block;
+    font-size: 4rem;
+    background-color: rgba(43, 174, 102, 0.15);
+    border: thin #2BAE66 solid;
+    border-radius: 4rem;
+    resize: none;
+}
+
+.confirm-body {
+    font-family: Raleway;
+    color: #2BAE66;
+    padding: 2rem;
+    display: flex;
+    flex-direction: column;
+    font-size: 3rem;
+    background-color: rgba(43, 174, 102, 0.15);
+    border: thin #2BAE66 solid;
+    border-radius: 4rem;
+    resize: none;
+}
+
+.confirm-buttons {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 2rem;
+}
+
+.confirm-submit,
+.confirm-back {
+    font-family: Imprima;
+    color: #FCF6F5;
+    padding: 2rem;
+    font-size: 3rem;
+    display: inlint-block;
+    background-color: #2BAE66;
+    border: none;
+    border-radius: 10rem;
+    text-align: center;
+    text-decoration: none;
+    -webkit-tap-highlight-color: transparent;
+}
+
+/*End of confirm.html*/
+/*Start of viewPost.html*/
+
+.viewPost-main {
+    padding: 2rem;
+    padding-bottom: 0;
+    display: grid;
+    gap: 2rem;
+}
+
+.viewPost-post,
+.viewPost-comment {
+    padding: 2rem;
+    background-color: rgba(43, 174, 102, 0.15);
+    border-radius: 2.25rem;
+    display: grid;
+    gap: 1rem;
+}
+
+.viewPost-heading-title {
+    font-family: Raleway;
+    color: #2BAE66;
+    font-size: 4rem;
+}
+
+.viewPost-heading-meta,
+.viewPost-comment-meta {
+    display: flex;
+    justify-content: space-between;
+    color: #2BAE66;
+    font-family: Imprima;
+    font-size: 2.75rem;
+}
+
+.viewPost-heading-stars,
+.viewPost-comment-votes {
+    display: flex;
+}
+
+.viewPost-star-submit,
+.viewPost-vote-submit {
+    background-color: transparent;
+    color: #2BAE66;
+    font-family: Imprima;
+    border: none;
+    padding: 0;
+}
+
+.viewPost-star-submit:hover,
+.viewPost-vote-submit:hover {
+    text-decoration: underline;
+    cursor: pointer;
+}
+
+.viewPost-heading-actions,
+.viewPost-comment-actions {
+    padding-top: 2rem;
+    display: flex;
+    justify-content: space-evenly;
+}
+
+.viewPost-edit-button,
+.viewPost-delete-button {
+    height: 4rem;
+}
+
+.viewPost-modal-container {
+    display: none;
+    background-color: rgba(0, 0, 0, 0.8);
+    position: fixed;
+    z-index: 1;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100vh;
+    align-items: center;
+    justify-content: center;
+}
+
+.viewPost-modal-message {
+    display: grid;
+    gap: 2rem;
+}
+
+.viewPost-modal-title {
+    padding: 2rem;
+    background-color: #2BAE66;
+    color: #FCF6F5;
+    font-family: Imprima;
+    font-size: 3rem;
+    border-radius: 10rem;
+}
+
+.viewPost-modal-buttons {
+    display: flex;
+    justify-content: space-evenly;
+}
+
+.viewPost-modal-button {
+    outline: none;
+}
+
+.modal-cancel {
+    color: white;
+    background-color: midnightblue;
+}
+
+.modal-delete {
+    color: white;
+    background-color: rgb(185, 0, 0);
+}
+
+.viewPost-comment-section {
+    display: grid;
+    gap: 1rem;
+}
+
+.viewPost-comments {
+    display: grid;
+    gap: 2rem;
+}
+
+.viewPost-body,
+.viewPost-comment-body {
+    display: flex;
+    flex-direction: column;
+    color: #2BAE66;
+    font-size: 3rem;
+    font-family: Raleway;
+}
+
+.viewPost-comment-editor {
+    padding-top: 1rem;
+    display: grid;
+    gap: 1rem;
+}
+
+.viewPost-editor-submit {
+    justify-self: center;
+}
+
+.viewPost-editor-submit:hover {
+    cursor: pointer;
+}
+
+/*End of viewPost.html*/
+/*Start of viewProfile.html*/
+
+.viewProfile-main {
+    display: grid;
+    padding: 2rem;
+    gap: 1rem;
+}
+
+.viewProfile-name {
+    color: #2BAE66;
+    font-size: 4rem;
+    font-family: Imprima;
+    text-align: center;
+}
+
+.viewProfile-tagline {
+    justify-self: center;
+    padding: 2rem;
+    background-color: rgba(43, 174, 102, 0.15);
+    color: #2BAE66;
+    font-size: 3rem;
+    font-family: Raleway;
+    border-radius: 2.25rem;
+    text-align: center;
+}
+
+.viewProfile-email,
+.viewProfile-dob,
+.viewProfile-created {
+    padding: 0.5rem;
+    color: #2BAE66;
+    font-size: 3rem;
+    font-family: Imprima;
+}
+
+.email-link {
+    color: #2BAE66;
+    text-decoration: none;
+}
+
+.viewProfile-posts {
+    display: grid;
+    gap: 1rem;
+}
+
+/*End of viewProfile.html*/
+/*Start of editProfile.html*/
+
+.editProfile-main {
+    display: grid;
+    padding: 2rem;
+}
+
+/*End of editProfile.html*/
+/*Start of latest.html,trending.html*/
+
+.page-list {
+    display: grid;
+    grid-auto-flow: column;
+    justify-content: center;
+    gap: 1rem;
+}
+
+.curr-page-no,
+.page-no {
+    color: #2BAE66;
+    font-family: Imprima;
+    font-size: 3rem;
+}
+
+.curr-page-no {
+    font-weight: bold;
+}

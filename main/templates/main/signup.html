@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="en-US">
+
+<head>
+    {% load static %}
+    <title>What's Down?</title>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="icon" href="{% static 'images/favicon.png' %}" />
+    <link id="style" rel="stylesheet" href="{% static 'css/dark.css' %}" />
+    <script src="{% static 'js/common.js' %}"></script>
+</head>
+
+<body>
+    <div class="signup-container">
+        <header>
+            <div class="header-buttons">
+                <a class="logo-link" href="{% url 'main:index' %}">
+                    <img id="logo" class="logo" src="{% static 'images/logo-dark.png' %}" alt="What's Down"
+                        title="What's Down?">
+                </a>
+                <label class="theme-toggle" title="Change Theme"><input id="theme" type="checkbox"
+                        onclick="toggleTheme();" checked>&nbsp;Dark</label>
+            </div>
+        </header>
+        <main>
+            <div class="signup-main">
+                <div class="signup-title">Welcome To The Community!</div>
+                <div class="signup-body">Create a free account to create new posts, comments and much more.
+                </div>
+                {% if signup_fields.error %}
+                <div class="signup-errors">
+                    {% for error in signup_fields.error %}
+                    <div class="signup-error">{{ error }}</div>
+                    {% endfor %}
+                </div>
+                {% endif %}
+                <form id="signup" class="signup-form" method="POST" action="{% url 'main:register' %}">
+                    {% csrf_token %}
+                    <div class="signup-fields">
+                        <input class="signup-field" type="text" name="name" placeholder="Name"
+                            {% if signup_fields.name %} value="{{ signup_fields.name }}" {% endif %} required>
+                        <input class="signup-field" type="email" name="email" placeholder="Email"
+                            {% if signup_fields.email %} value="{{ signup_fields.email }}" {% endif %} required>
+                        <input class="signup-field" type="text" name="username" placeholder="Username"
+                            {% if signup_fields.username %} value="{{ signup_fields.username }}" {% endif %} required>
+                        <textarea class="signup-textarea" name="tagline"
+                            placeholder="Tagline (Optional)">{% if signup_fields.tagline %}{{ signup_fields.tagline }}{% endif %}</textarea>
+                        <label class="signup-date-label">
+                            Date Of Birth:
+                            <input class="signup-date" type="date" name="dob" placeholder="Date Of Birth"
+                                {% if signup_fields.dob %} value="{{ signup_fields.dob|safe }}" {% endif %} required>
+                        </label>
+                        <input class="signup-field" type="password" name="password" placeholder="Password" required>
+                        <input class="signup-field" type="password" name="confirm" placeholder="Confirm Password"
+                            required>
+                        <label class="remember-checkbox">
+                            <input type="checkbox" name="remember" checked>&nbsp;Keep Me
+                            Signed In
+                        </label>
+                        <input type="submit" hidden>
+                    </div>
+                </form>
+            </div>
+        </main>
+        <footer>
+            <div class="footer-buttons">
+                <a class="signup-link" href="#" onclick="document.getElementById('signup').submit();"
+                    title="Signup on What's Down">Signup</a>
+                <div class="footer-text">Made with ❤️</div>
+                <a class="about-link" href="{% url 'main:about' %}" title="About Us">About</a>
+            </div>
+        </footer>
+    </div>
+</body>
+
+</html>
